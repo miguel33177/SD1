@@ -1,0 +1,63 @@
+package edu.ufp.inf.sd.rmi.project.server;
+
+import edu.ufp.inf.sd.rmi.project.server.ProjectImpl;
+import edu.ufp.inf.sd.rmi.project.server.ProjectRI;
+import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
+
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ProjectServer {
+
+    public static void main(String[] args) {
+        if (args != null && args.length < 2) {
+            System.err.println("usage: java [options] edu.ufp.sd.inf.rmi._01_helloworld.server.HelloWorldServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
+            System.exit(-1);
+        } else {
+            // 1. ============ Setup server RMI context ============
+            ProjectServer hws = new ProjectServer(args);
+            // 2. ============ Rebind service ============
+            hws.rebindService();
+        }
+    }
+
+    private SetupContextRMI contextRMI;
+
+    public ProjectServer(String args[]) {
+        try {
+            // List and set args
+            SetupContextRMI.printArgs(this.getClass().getName(), args);
+            String registryIP = args[0];
+            String registryPort = args[1];
+            String serviceName = args[2];
+            // Create a context for RMI setup
+            contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName});
+        } catch (RemoteException e) {
+            Logger.getLogger(ProjectServer.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    private void rebindService() {
+        try {
+            // Get proxy to rmiregistry
+            Registry registry = contextRMI.getRegistry();
+            // Create Servant
+            ProjectRI projectRI = new ProjectImpl();
+            // Register remote object
+            if (registry != null) {
+                // Get service url
+                String serviceUrl = contextRMI.getServicesUrl(0);
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to bind service @ {0}", serviceUrl);
+                // Rebind service on rmiregistry and wait for calls
+                registry.rebind(serviceUrl, projectRI);
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
+                // registry = LocateRegistry.createRegistry(1099);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
