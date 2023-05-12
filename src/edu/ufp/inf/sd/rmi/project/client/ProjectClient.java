@@ -6,6 +6,7 @@ import edu.ufp.inf.sd.rmi.project.client.awgame.menus.StartMenu;
 import edu.ufp.inf.sd.rmi.project.server.ProjectRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
+import javax.swing.*;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -20,6 +21,7 @@ public class ProjectClient {
     private SetupContextRMI contextRMI;
     private ProjectRI projectRI;
     public static String token;
+    private Game game;
 
     public static void main(String[] args) {
         if (args != null && args.length < 2) {
@@ -108,7 +110,8 @@ public class ProjectClient {
         String response = projectRI.loginUser(username, password);
         System.out.println(response);
         if (response.equals("Login bem sucedido.")) {
-            new Game();
+            this.game = new Game();
         }
     }
+
 }

@@ -19,7 +19,7 @@ public class StartMenu implements ActionListener {
 	//Single Player
 	public JButton New = new JButton("New Game");
 	public JButton Load = new JButton("Continue");
-	
+
 	//Online
 	public JButton Join = new JButton("Online");
 	
@@ -54,7 +54,7 @@ public class StartMenu implements ActionListener {
 	private void AddGui() {
 		Game.gui.add(New);
 		Game.gui.add(Load);
-		//Game.gui.add(Join);
+		Game.gui.add(Join);
 		Game.gui.add(Editor);
 		Game.gui.add(Credits);
 		Game.gui.add(Options);

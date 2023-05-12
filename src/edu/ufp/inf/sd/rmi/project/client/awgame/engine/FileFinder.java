@@ -11,7 +11,7 @@ import javax.swing.DefaultListModel;
  * @version 0.3
  */
 public class FileFinder {
-	final String mappath = "src/edu/ufp/inf/sd/rmi/project/client/awgame/maps";
+	final String mappath = "../../../src/edu/ufp/inf/sd/rmi/project/client/awgame/maps";
 	final String packpath = "mods";
 	final String modpath = "mods";
 

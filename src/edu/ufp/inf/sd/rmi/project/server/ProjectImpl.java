@@ -101,8 +101,6 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
     }
 
 
-
-
     public ProjectImpl() throws RemoteException {
         super();
         hashMap = new HashMap<>();
