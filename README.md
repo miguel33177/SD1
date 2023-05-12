@@ -1,0 +1,3 @@
+# SD
+
+- inicializar game
