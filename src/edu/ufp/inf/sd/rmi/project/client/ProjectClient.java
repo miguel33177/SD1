@@ -111,6 +111,7 @@ public class ProjectClient {
         System.out.println(response);
         if (response.equals("Login bem sucedido.")) {
             this.game = new Game();
+
         }
     }
 

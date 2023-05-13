@@ -12,39 +12,16 @@ import edu.ufp.inf.sd.rmi.project.shared.User;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
 
     private HashMap<String, User> hashMap;
-
+    private HashMap<String, Lobby> lobbies;
+    private ArrayList<Lobby> arrayLobbies;
     private String secret;
-
-
-   /* private void saveHashMap() {
-        String filePath = "/Users/brunomiguel/IdeaProjects/SD1/src/edu/ufp/inf/sd/rmi/project/server/hashmap.txt";
-        File file = new File(filePath);
-
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter writer = new FileWriter(file);
-
-            for (String key : hashMap.keySet()) {
-                User user = hashMap.get(key);
-                String line = key + "," + user.getPasswordHash() + "," + user.getToken() + "\n";
-                writer.write(line);
-            }
-
-            writer.close();
-            System.out.println("HashMap salvo com sucesso em " + filePath);
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar HashMap: " + e.getMessage());
-        }
-    }*/
 
     private void saveHashMap() {
         String filePath = "/Users/brunomiguel/IdeaProjects/SD1/src/edu/ufp/inf/sd/rmi/project/server/Users.txt";
@@ -69,8 +46,6 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
             System.err.println("Erro ao salvar HashMap: " + e.getMessage());
         }
     }
-
-
 
     private void loadHashMap() {
         String filePath = "/Users/brunomiguel/IdeaProjects/SD1/src/edu/ufp/inf/sd/rmi/project/server/Users.txt";
@@ -100,15 +75,15 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
         }
     }
 
-
     public ProjectImpl() throws RemoteException {
         super();
         hashMap = new HashMap<>();
+        lobbies = new HashMap<>();
+        arrayLobbies = new ArrayList<>();
         secret = "mysecretkey";
         loadHashMap(); // Carrega os dados do HashMap quando o objeto é criado
         Runtime.getRuntime().addShutdownHook(new Thread(this::saveHashMap)); // Salva os dados do HashMap quando o programa é finalizado
     }
-
 
     @Override
     public String registerUser(String username, String password) throws RemoteException {
@@ -124,7 +99,6 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
             return "TOKEN : " + token;
         }
     }
-
 
     @Override
     public String loginUser(String username, String password) throws RemoteException {
@@ -152,7 +126,6 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
         }
     }
 
-
     private String generateToken(String username, String password, Date expirationDate) {
          String token = JWT.create()
              .withClaim("username", username)
@@ -160,5 +133,34 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
              .withExpiresAt(expirationDate)
              .sign(Algorithm.HMAC256(secret));
          return token;
+    }
+
+    public ArrayList<Lobby> getArrayLobbies(){
+        return arrayLobbies;
+    }
+
+    public ArrayList<String> getLobbies() throws RemoteException{
+        ArrayList<String> x = new ArrayList<>();
+        String s;
+        for(Lobby l : getArrayLobbies()){
+            s = l.getMap() + "#" + l.getId();
+            x.add(s);
+        }
+        return x;
+    }
+
+    public void createLobby(String mapName) throws RemoteException {
+        Lobby lobby = new Lobby(mapName);
+        String lobbyName = mapName + "#" + lobby.getId();
+        lobbies.put(lobbyName, lobby);
+        arrayLobbies.add(lobby);
+        System.out.println("Lobby created: " + lobbyName);
+    }
+
+    public void joinLobby(String lobbyName) throws RemoteException{
+        Lobby lobby = lobbies.get(lobbyName);
+        lobby.incrementNumPlayers();
+        //lobby.notifyObservers();
+         System.out.println("Player joined lobby: " + lobbyName);
     }
 }

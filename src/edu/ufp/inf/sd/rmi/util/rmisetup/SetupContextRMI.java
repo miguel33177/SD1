@@ -114,7 +114,7 @@ public class SetupContextRMI {
     private void setupSecurityManager() {
         if (System.getSecurityManager() == null) {
             logger.log(Level.INFO, "set security manager for {0}", subsystemClass.getName());
-            System.setSecurityManager(new SecurityManager());
+        //    System.setSecurityManager(new SecurityManager());
         }
     }
 
