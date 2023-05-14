@@ -47,6 +47,14 @@ public class Lobby {
         return map;
     }
 
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public int getPlayers() {
+        return numPlayers;
+    }
+
     public void incrementNumPlayers() {
         numPlayers++;
     }

@@ -107,9 +107,7 @@ public class PlayerSelectionOnline implements ActionListener {
                 Name[i].setText(Game.displayC.get(plyer[i]).name);
             }
             else if (s == ManOrMachine[i]) {
-                npc[i]=!npc[i];
-                if (npc[i]) {ManOrMachine[i].setText("NPC");}
-                else {ManOrMachine[i].setText("PLY");}
+                ManOrMachine[i].setText("PLY");
             }
         }
     }

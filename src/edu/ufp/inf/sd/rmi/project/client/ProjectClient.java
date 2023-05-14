@@ -19,9 +19,13 @@ import java.util.logging.Logger;
 public class ProjectClient {
 
     private SetupContextRMI contextRMI;
-    private ProjectRI projectRI;
+    private static ProjectRI projectRI;
     public static String token;
     private Game game;
+
+    public static ProjectRI getProjectRI(){
+        return projectRI;
+    }
 
     public static void main(String[] args) {
         if (args != null && args.length < 2) {

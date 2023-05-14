@@ -141,12 +141,32 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
 
     public ArrayList<String> getLobbies() throws RemoteException{
         ArrayList<String> x = new ArrayList<>();
+        ArrayList<Integer> currentPlayers = new ArrayList<>();
+        ArrayList<Integer> maxPlayers = new ArrayList<>();
         String s;
         for(Lobby l : getArrayLobbies()){
             s = l.getMap() + "#" + l.getId();
+            currentPlayers.add(l.getPlayers());
+            maxPlayers.add(l.getMaxPlayers());
             x.add(s);
         }
         return x;
+    }
+
+    public ArrayList<Integer> getLobbiesMaxPlayers() throws RemoteException{
+        ArrayList<Integer> maxPlayers = new ArrayList<>();
+        for(Lobby l : getArrayLobbies()){
+            maxPlayers.add(l.getMaxPlayers());
+        }
+        return maxPlayers;
+    }
+
+    public ArrayList<Integer> getLobbiesCurrPlayers() throws RemoteException{
+        ArrayList<Integer> currPlayers = new ArrayList<>();
+        for(Lobby l : getArrayLobbies()){
+            currPlayers.add(l.getPlayers());
+        }
+        return currPlayers;
     }
 
     public void createLobby(String mapName) throws RemoteException {
