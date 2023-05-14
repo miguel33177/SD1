@@ -27,8 +27,8 @@ public class PlayerSelectionOnline implements ActionListener {
     int[] plyer = {0,0,0,0};
 
     //NPC Stuff
-    JButton[] ManOrMachine = {new JButton("PLY"),new JButton("NPC"),new JButton("NPC"),new JButton("NPC")};
-    boolean[] npc = {false,true,true,true};
+    JButton[] ManOrMachine = {new JButton("PLY")};
+    boolean[] npc = {false};
 
     //Other
     JButton Return = new JButton("Return");
@@ -53,16 +53,16 @@ public class PlayerSelectionOnline implements ActionListener {
             ThunderbirdsAreGo.setText("Join Lobby");
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 1; i++) {
             Prev[i].addActionListener(this);
             Prev[i].setBounds(size.x+10+84*i, size.y+10, 64, 32);
             Game.gui.add(Prev[i]);
             Next[i].addActionListener(this);
             Next[i].setBounds(size.x+10+84*i, size.y+100, 64, 32);
             Game.gui.add(Next[i]);
-            ManOrMachine[i].addActionListener(this);
-            ManOrMachine[i].setBounds(size.x+12+84*i, size.y+68, 58, 24);
-            Game.gui.add(ManOrMachine[i]);
+            ManOrMachine[0].addActionListener(this);
+            ManOrMachine[0].setBounds(size.x+12+84*i, size.y+68, 58, 24);
+            Game.gui.add(ManOrMachine[0]);
             Name[i].setBounds(size.x+10+84*i, size.y+40, 64, 32);
             Game.gui.add(Name[i]);
         }
@@ -71,7 +71,7 @@ public class PlayerSelectionOnline implements ActionListener {
         AddListeners();
     }
     private void SetBounds(Point size) {
-        ThunderbirdsAreGo.setBounds(size.x+200, size.y+170, 100, 24);
+        ThunderbirdsAreGo.setBounds(size.x+200, size.y+170, 130, 24);
         Return.setBounds(size.x+20, size.y+170, 100, 24);
     }
     private void AddGui() {
@@ -95,7 +95,7 @@ public class PlayerSelectionOnline implements ActionListener {
     } else if (s == ThunderbirdsAreGo && joinLobby) {
         handleJoinLobby();
     }
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 1; i++) {
             if (s == Prev[i]) {
                 plyer[i]--;
                 if (plyer[i]<0) {plyer[i]=Game.displayC.size()-1;}
@@ -123,6 +123,12 @@ public class PlayerSelectionOnline implements ActionListener {
     }
 
     private void handleJoinLobby() {
-        System.out.println("Joined lobby");
+        ProjectRI projectRI = ProjectClient.getProjectRI();
+        try {
+            projectRI.joinLobby(mapname);
+        } catch (RemoteException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 }

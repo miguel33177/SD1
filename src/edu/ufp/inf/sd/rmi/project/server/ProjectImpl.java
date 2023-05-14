@@ -158,9 +158,13 @@ public class ProjectImpl extends UnicastRemoteObject implements ProjectRI {
     }
 
     public void joinLobby(String lobbyName) throws RemoteException{
+        int startIndex = lobbyName.indexOf("-") + 1;
+        lobbyName = lobbyName.substring(startIndex).trim();
         Lobby lobby = lobbies.get(lobbyName);
         lobby.incrementNumPlayers();
         //lobby.notifyObservers();
-         System.out.println("Player joined lobby: " + lobbyName);
+        System.out.println("Player joined lobby: " + lobbyName);
     }
 }
+
+
