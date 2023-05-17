@@ -14,7 +14,7 @@ public class LobbyImpl implements LobbyRI{
 
     private String map;
 
-    public LobbyImpl(String map){
+    public LobbyImpl(String map) throws RemoteException{
         idCounter++;
         this.id = idCounter;
         this.observers = Collections.synchronizedList(new ArrayList<>());
