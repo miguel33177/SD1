@@ -51,6 +51,7 @@ public class Game extends JFrame {
 	public static Image img_city;
 	public static Image img_exts;
 	public static Boolean readytopaint;
+
 	
 	//This handles the different players and also is used to speed logic arrays (contains a list of all characters they own)
 	public static List<edu.ufp.inf.sd.rmi.project.client.awgame.players.Base> player = new ArrayList<edu.ufp.inf.sd.rmi.project.client.awgame.players.Base>();
@@ -141,6 +142,6 @@ public class Game extends JFrame {
 
 	/**Starts a new game when launched.*/
 	public static void main(String args[]) throws Exception {
-		new Game();
+		//new Game();
 	}
 }
