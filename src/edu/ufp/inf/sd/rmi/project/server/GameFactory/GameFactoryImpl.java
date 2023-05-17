@@ -107,7 +107,7 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
                     DecodedJWT decodedJWT = JWT.decode(storedToken);
                     Algorithm algorithm = Algorithm.HMAC256("mysecretkey");
                     JWTVerifier verifier = JWT.require(algorithm).build();
-                    verifier.verify(decodedJWT);  // Isso verifica se o token é válido
+                    verifier.verify(decodedJWT);
                 } catch (JWTVerificationException e) {
                     // Token inválido ou expirado, gerar um novo token
                     Date expirationDate = new Date(System.currentTimeMillis() + 3600000);
