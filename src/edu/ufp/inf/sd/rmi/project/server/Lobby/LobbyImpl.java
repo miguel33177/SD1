@@ -2,9 +2,11 @@ package edu.ufp.inf.sd.rmi.project.server.Lobby;
 
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
-public class LobbyImpl implements LobbyRI{
+public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     private static int idCounter = 0;
     private int id;
 
@@ -40,4 +42,22 @@ public class LobbyImpl implements LobbyRI{
         return maxPlayers;
     }
 
+    @Override
+    public void registerObserver(ObserverRI o) throws RemoteException {
+        if(this.getObservers().size() < maxPlayers){
+            this.getObservers().add(o);
+        }
+    }
+
+    @Override
+    public void removeObserver(ObserverRI o) throws RemoteException {
+        this.getObservers().remove(o);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException{
+        for (ObserverRI o: this.getObservers()) {
+            o.update();
+        }
+    }
 }
