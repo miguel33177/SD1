@@ -11,17 +11,7 @@ import java.util.logging.Logger;
 
 public class ProjectServer {
 
-    public static void main(String[] args) {
-        if (args != null && args.length < 2) {
-            System.err.println("usage: java [options] edu.ufp.sd.inf.rmi._01_helloworld.server.HelloWorldServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
-            System.exit(-1);
-        } else {
-            // 1. ============ Setup server RMI context ============
-            ProjectServer hws = new ProjectServer(args);
-            // 2. ============ Rebind service ============
-            hws.rebindService();
-        }
-    }
+    private GameFactoryRI gameFactoryRI;
 
     private SetupContextRMI contextRMI;
 
@@ -33,7 +23,7 @@ public class ProjectServer {
             String registryPort = args[1];
             String serviceName = args[2];
             // Create a context for RMI setup
-            contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName});
+            contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName,"a"});
         } catch (RemoteException e) {
             Logger.getLogger(ProjectServer.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -44,14 +34,14 @@ public class ProjectServer {
             // Get proxy to rmiregistry
             Registry registry = contextRMI.getRegistry();
             // Create Servant
-            ProjectRI projectRI = new ProjectImpl();
+            this.gameFactoryRI = new GameFactoryImpl();
             // Register remote object
             if (registry != null) {
                 // Get service url
                 String serviceUrl = contextRMI.getServicesUrl(0);
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to bind service @ {0}", serviceUrl);
                 // Rebind service on rmiregistry and wait for calls
-                registry.rebind(serviceUrl, projectRI);
+                registry.rebind(serviceUrl, this.gameFactoryRI);
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
                 // registry = LocateRegistry.createRegistry(1099);
@@ -60,4 +50,16 @@ public class ProjectServer {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public static void main(String[] args) {
+             if (args != null && args.length < 2) {
+                 System.err.println("usage: java [options] edu.ufp.sd.inf.rmi._01_helloworld.server.HelloWorldServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
+                 System.exit(-1);
+             } else {
+                 // 1. ============ Setup server RMI context ============
+                 ProjectServer hws = new ProjectServer(args);
+                 // 2. ============ Rebind service ============
+                 hws.rebindService();
+             }
+         }
 }

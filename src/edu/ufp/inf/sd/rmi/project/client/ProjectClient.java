@@ -1,9 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.client;
 
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
-import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Gui;
-import edu.ufp.inf.sd.rmi.project.client.awgame.menus.StartMenu;
-import edu.ufp.inf.sd.rmi.project.server.ProjectRI;
+import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
 import java.rmi.NotBoundException;
@@ -17,7 +15,6 @@ import java.util.logging.Logger;
 public class ProjectClient implements Observer{
     private GameFactoryRI gameFactoryRI;
     private SetupContextRMI contextRMI;
-    private static ProjectRI projectRI;
     public static String token;
     private Game game;
 
@@ -70,7 +67,7 @@ public class ProjectClient implements Observer{
             if (registry != null) {
                 String serviceUrl = contextRMI.getServicesUrl(0);
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to lookup service @ {0}", serviceUrl);
-                projectRI = (ProjectRI) registry.lookup(serviceUrl);
+                gameFactoryRI = (GameFactoryRI) registry.lookup(serviceUrl);
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
             }
@@ -80,26 +77,7 @@ public class ProjectClient implements Observer{
     }
 
     private void playService() {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            String input;
-
-            while (true) {
-                System.out.println("Press 'r' for register or 'l' for login:");
-                input = scanner.nextLine().trim();
-                if (input.equalsIgnoreCase("r")) {
-                    register();
-                    break;
-                } else if (input.equalsIgnoreCase("l")) {
-                    login();
-                    break;
-                } else {
-                    System.out.println("Try again");
-                }
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
+        new Game(this.gameFactoryRI);
     }
 
     @Override
