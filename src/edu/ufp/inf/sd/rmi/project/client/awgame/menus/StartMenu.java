@@ -82,7 +82,7 @@ public class StartMenu implements ActionListener {
 		Object s = e.getSource();
 		if (s==New) {new PlayerSelection(maps_list.getSelectedValue()+"");}
 		else if (s==Load) {Game.save.LoadGame();MenuHandler.CloseMenu();}
-		else if (s==Join) {new Online();}
+		else if (s==Join) {}
 		else if (s==Editor) {
 			Game.edit.StartEditor(
 					"MapName",

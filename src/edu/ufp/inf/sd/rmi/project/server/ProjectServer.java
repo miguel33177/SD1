@@ -1,7 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.server;
 
-import edu.ufp.inf.sd.rmi.project.server.ProjectImpl;
-import edu.ufp.inf.sd.rmi.project.server.ProjectRI;
+import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryImpl;
+import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
 import java.rmi.RemoteException;

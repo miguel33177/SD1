@@ -18,7 +18,7 @@ import java.util.Properties;
  * @version 0.2
  */
 public class Save {
-	final String path = "saves/";
+	final String path = "edu/ufp/inf/sd/rmi/project/client/awgame/saves/";
 	
 	public void SaveSettings() {
 		//If the folder doesn't exist, create it so we can save our save files inside it.

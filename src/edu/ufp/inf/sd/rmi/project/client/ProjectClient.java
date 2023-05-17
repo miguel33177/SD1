@@ -6,25 +6,39 @@ import edu.ufp.inf.sd.rmi.project.client.awgame.menus.StartMenu;
 import edu.ufp.inf.sd.rmi.project.server.ProjectRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
-import javax.swing.*;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProjectClient {
-
+public class ProjectClient implements Observer{
+    private GameFactoryRI gameFactoryRI;
     private SetupContextRMI contextRMI;
     private static ProjectRI projectRI;
     public static String token;
     private Game game;
 
-    public static ProjectRI getProjectRI(){
-        return projectRI;
+    private static boolean inLobby = false;
+
+    private static String lobbyName;
+
+    public static boolean isInLobby() {
+        return inLobby;
+    }
+
+    public static void setInLobby(boolean inLobby) {
+        ProjectClient.inLobby = inLobby;
+    }
+
+    public static String getLobbyName() {
+        return lobbyName;
+    }
+
+    public static void setLobbyName(String lobbyName) {
+        ProjectClient.lobbyName = lobbyName;
     }
 
     public static void main(String[] args) {
@@ -88,35 +102,8 @@ public class ProjectClient {
         }
     }
 
-    private void register() throws RemoteException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter username:");
-        String username = scanner.nextLine().trim();
+    @Override
+    public void update(Observable o, Object arg) {
 
-        System.out.println("Enter password:");
-        String password = scanner.nextLine().trim();
-
-        // Chamar o método remoto registerUser() do serviço ProjectRI
-        String response = projectRI.registerUser(username, password);
-
-        System.out.println(response);
     }
-
-    private void login() throws RemoteException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter username:");
-        String username = scanner.nextLine().trim();
-
-        System.out.println("Enter password:");
-        String password = scanner.nextLine().trim();
-
-        // Chamar o método remoto loginUser() do serviço ProjectRI
-        String response = projectRI.loginUser(username, password);
-        System.out.println(response);
-        if (response.equals("Login bem sucedido.")) {
-            this.game = new Game();
-
-        }
-    }
-
 }
