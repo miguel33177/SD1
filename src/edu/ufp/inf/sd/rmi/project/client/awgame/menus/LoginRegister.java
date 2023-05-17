@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-public class Login implements ActionListener{
+public class LoginRegister implements ActionListener{
     public JTextField username = new JTextField("Username");
     public JTextField password = new JTextField("Password");
     public JButton login = new JButton("Login");
@@ -18,7 +18,7 @@ public class Login implements ActionListener{
     public JLabel usernameLabel = new JLabel("Username:");
     public JLabel passwordLabel = new JLabel("Password:");
 
-    public Login() {
+    public LoginRegister() {
         Point size = MenuHandler.PrepMenu(400,280);
         MenuHandler.HideBackground();
         SetBounds(size);

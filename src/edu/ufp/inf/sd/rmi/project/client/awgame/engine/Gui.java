@@ -1,8 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
 import edu.ufp.inf.sd.rmi.project.client.awgame.gui.*;
-import edu.ufp.inf.sd.rmi.project.client.awgame.menus.Login;
-import edu.ufp.inf.sd.rmi.project.client.awgame.menus.StartMenu;
+import edu.ufp.inf.sd.rmi.project.client.awgame.menus.LoginRegister;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,7 +36,7 @@ public class Gui extends JPanel {
 	public void LoginScreen() {
 		Game.GameState=Game.State.MENU;
 		removeAll();
-		new Login();
+		new LoginRegister();
 		if (Game.error.showing) {add(Game.error);}
 	}
 	/**Creates the InGame screen layout*/
