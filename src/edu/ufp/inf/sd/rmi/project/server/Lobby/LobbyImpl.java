@@ -32,7 +32,7 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     public int getId(){
         return this.id;
     }
-    public String getMap() {
+    public String getMap(){
         return map;
     }
     public List<ObserverRI> getObservers() {
