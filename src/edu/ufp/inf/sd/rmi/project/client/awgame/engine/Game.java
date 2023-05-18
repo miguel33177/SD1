@@ -1,5 +1,6 @@
 package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
+import edu.ufp.inf.sd.rmi.project.client.ObserverImpl;
 import edu.ufp.inf.sd.rmi.project.client.awgame.buildings.Base;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionRI;
@@ -13,6 +14,7 @@ import javax.swing.JFrame;
 public class Game extends JFrame {
 	public static GameFactoryRI gameFactory;
 	public static GameSessionRI gameSession;
+	public static ObserverImpl o;
 	public static String username; // username
 	public static int character;
 

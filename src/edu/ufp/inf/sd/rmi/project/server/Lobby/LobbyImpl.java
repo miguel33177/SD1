@@ -27,6 +27,8 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
         if(Objects.equals(map,"SmallVs")){
             this.maxPlayers = 2;
         }
+        this.lobbyName = map + "#" + this.id;
+        this.map=map;
 
     }
 

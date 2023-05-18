@@ -5,20 +5,29 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
+import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionImpl;
+import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionRI;
+import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
 import edu.ufp.inf.sd.rmi.project.shared.User;
 
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryRI {
     private final HashMap<String, User> hashMap;
+    private HashMap<String, LobbyImpl> hash;
+    private ArrayList<LobbyImpl> array;
 
     public GameFactoryImpl() throws RemoteException{
         super();
         this.hashMap = new HashMap<>();
+        this.hash = new HashMap<>();
+        this.array = new ArrayList<>();
         loadHashMap();
         addShutdownHook();
     }
@@ -134,5 +143,10 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
             hashMap.put(username, user);
             return true;
         }
+    }
+
+    @Override
+    public GameSessionRI getSession() throws RemoteException {
+        return new GameSessionImpl(hash,array);
     }
 }
