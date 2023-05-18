@@ -15,6 +15,7 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     private int maxPlayers;
 
     private String map;
+    private String lobbyName;
 
     public LobbyImpl(String map) throws RemoteException{
         idCounter++;

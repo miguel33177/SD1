@@ -11,4 +11,6 @@ public interface LobbyRI extends Remote {
     void registerObserver(ObserverRI o) throws RemoteException;
 
     void notifyObservers() throws RemoteException;
+
+
 }

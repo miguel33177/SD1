@@ -63,6 +63,7 @@ public class LoginRegister implements ActionListener{
             try {
                 if(Game.gameFactory.login(user, pass)){
                     Game.username = user;
+                    Game.gameSession = Game.gameFactory.getSession();
                     new StartMenu();
                 }else {
                     JOptionPane.showMessageDialog(null, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);

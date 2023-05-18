@@ -14,6 +14,7 @@ public class Game extends JFrame {
 	public static GameFactoryRI gameFactory;
 	public static GameSessionRI gameSession;
 	public static String username; // username
+	public static int character;
 
 
 	private static final long serialVersionUID = 1L;
