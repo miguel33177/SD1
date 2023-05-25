@@ -13,7 +13,7 @@ public interface GameSessionRI extends Remote {
     String createLobby(String mapName, ObserverRI o) throws RemoteException;
 
     void leaveLobby(String l, ObserverRI o) throws RemoteException;
-
+    boolean checkLobbyAvailable(String l) throws RemoteException;
     String joinLobby(String l, ObserverRI o) throws RemoteException;
     ArrayList<LobbyImpl> getArrayLobbies() throws RemoteException;
     ArrayList<String> getLobbies() throws RemoteException;

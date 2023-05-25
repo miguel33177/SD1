@@ -105,7 +105,9 @@ public class PlayerSelectionModeOnline implements ActionListener {
             new WaitingStartModeOnline(this.lobbyName);
         } else if (s == ThunderbirdsAreGo && joinLobby) {
             handleJoinLobby();
-            new WaitingStartModeOnline(this.lobbyName);
+            if(this.lobbyName != null){
+                new WaitingStartModeOnline(this.lobbyName);
+            }
         }
         for (int i = 0; i < 1; i++) {
             if (s == Prev[i]) {
