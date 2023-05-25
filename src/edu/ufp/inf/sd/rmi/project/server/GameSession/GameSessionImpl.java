@@ -35,8 +35,9 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
     public void leaveLobby(String l, ObserverRI o) throws RemoteException{
         LobbyImpl lobby = lobbies.get(l);
         lobby.removeObserver(o);
-        if(lobby.getObservers().size() == 0){
+        if(lobby.getObservers().size() == 0) {
             lobbies.remove(l);
+            arrayLobbies.remove(lobby);
         }
     }
 
@@ -45,9 +46,11 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
         int startIndex = l.indexOf("-") + 1;
         l = l.substring(startIndex).trim();
         LobbyImpl lobby = lobbies.get(l);
-        lobby.registerObserver(o);
-        return l;
-
+        if(lobby.getObservers().size() < lobby.getMaxPlayers()) {
+            lobby.registerObserver(o);
+            return l;
+        }
+        return null;
     }
 
     @Override
@@ -82,5 +85,13 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
             currPlayers.add(l.getObservers().size());
         }
         return currPlayers;
+    }
+
+    @Override
+    public boolean checkLobbyAvailable(String l){
+        int startIndex = l.indexOf("-") + 1;
+        l = l.substring(startIndex).trim();
+        LobbyImpl lobby = lobbies.get(l);
+        return lobby.getObservers().size() < lobby.getMaxPlayers();
     }
 }

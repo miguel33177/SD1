@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class JoinLobbyModeOnline implements ActionListener{
+public class JoinLobbyModeOnline implements ActionListener {
 
     public JButton Return = new JButton("Return");
     public JButton Next = new JButton("Next");
@@ -51,7 +51,7 @@ public class JoinLobbyModeOnline implements ActionListener{
 
         try {
             ArrayList<String> lobbies = Game.gameSession.getLobbies();
-            ArrayList<Integer> lobbyCurrPlayers =Game.gameSession.getLobbiesCurrPlayers();
+            ArrayList<Integer> lobbyCurrPlayers = Game.gameSession.getLobbiesCurrPlayers();
             ArrayList<Integer> lobbyMaxPlayers = Game.gameSession.getLobbiesMaxPlayers();
 
             if (lobbies.isEmpty()) {
@@ -76,11 +76,11 @@ public class JoinLobbyModeOnline implements ActionListener{
                 JOptionPane.showOptionDialog(
                         Game.gui,
                         panel,
-                        "Aviso",
+                        "Warning",
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.INFORMATION_MESSAGE,
                         null,
-                        new Object[] {},
+                        new Object[]{},
                         null
                 );
             } else {
@@ -106,7 +106,40 @@ public class JoinLobbyModeOnline implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
-        if (s==Next) { new PlayerSelectionModeOnline(lobbies_list.getSelectedValue() + "", true,false);}
-        else if (s==Return) {new ModeOnline();}
+        if (s == Next) {
+            if( lobbies_list.getSelectedValue() != null){
+                try {
+                    boolean x = Game.gameSession.checkLobbyAvailable(lobbies_list.getSelectedValue() + "");
+                    System.out.println(x);
+                    if (x) {
+                        new PlayerSelectionModeOnline(lobbies_list.getSelectedValue() + "", true, false);
+                    }else{
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new BorderLayout());
+
+                        JLabel messageLabel = new JLabel("Lobby full. Choose another lobby!");
+                        panel.add(messageLabel, BorderLayout.CENTER);
+
+
+                        JOptionPane.showOptionDialog(
+                                Game.gui,
+                                panel,
+                                "Warning",
+                                JOptionPane.DEFAULT_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE,
+                                null,
+                                new Object[]{},
+                                null
+                        );
+                    }
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+
+        } else if (s == Return) {
+            new ModeOnline();
+        }
     }
 }
