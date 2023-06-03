@@ -14,9 +14,7 @@ import edu.ufp.inf.sd.rmi.project.shared.User;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryRI {
     private final HashMap<String, User> hashMap;
