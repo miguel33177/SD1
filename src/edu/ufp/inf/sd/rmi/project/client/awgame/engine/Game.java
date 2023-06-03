@@ -118,7 +118,7 @@ public class Game extends JFrame {
         setLocationRelativeTo(null);
 
         //Creates all the gui elements and sets them up
-        gui = new Gui(this);
+        //gui = new Gui(this);
         add(gui);
         gui.setFocusable(true);
         gui.requestFocusInWindow();

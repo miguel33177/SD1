@@ -71,14 +71,7 @@ public class Pause implements ActionListener {
 				throw new RuntimeException(ex);
 			}
 			new ModeOnline();
-
 		}
-		/*
-		else if (s==EndTurn) {
-			MenuHandler.CloseMenu();
-			Game.btl.EndTurn();
-		}
-		*/
 		else if (s==Resume) {MenuHandler.CloseMenu();}
 		else if (s==Save) {Game.save.SaveGame();}
 		else if (s==Options) {new Options();}
