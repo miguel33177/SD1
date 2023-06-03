@@ -94,7 +94,7 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
     }
 
     @Override
-    public boolean checkLobbyAvailable(String l){
+    public boolean checkLobbyAvailable(String l) throws RemoteException {
         int startIndex = l.indexOf("-") + 1;
         l = l.substring(startIndex).trim();
         LobbyImpl lobby = lobbies.get(l);

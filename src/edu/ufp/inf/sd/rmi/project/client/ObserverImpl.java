@@ -34,6 +34,10 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
     public String getUsername() throws RemoteException {
         return this.username;
     }
+    @Override
+    public void setLobby(String lobby) throws RemoteException {
+        this.lobby = lobby;
+    }
 
     @Override
     public void update() throws RemoteException{

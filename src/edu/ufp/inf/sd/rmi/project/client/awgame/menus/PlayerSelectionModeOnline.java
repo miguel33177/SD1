@@ -133,8 +133,9 @@ public class PlayerSelectionModeOnline implements ActionListener {
 
     private void handleCreateLobby() {
         try {
-            Game.o = new ObserverImpl(Game.username, this.lobbyName);
+            Game.o = new ObserverImpl(Game.username, Game.character, Game.pointer);
             this.lobbyName = Game.gameSession.createLobby(mapname, Game.o);
+            Game.o.setLobby(this.lobbyName);
             System.out.println(Game.character);
 
         } catch (RemoteException ex) {
@@ -145,7 +146,7 @@ public class PlayerSelectionModeOnline implements ActionListener {
 
     private void handleJoinLobby() {
         try {
-            Game.o = new ObserverImpl(Game.username, this.lobbyName);
+            Game.o = new ObserverImpl(Game.username, Game.character, Game.pointer);
             this.lobbyName = Game.gameSession.joinLobby(mapname, Game.o);
             //Game.o.setLobby(this.lobbyName);
         } catch (RemoteException ex) {

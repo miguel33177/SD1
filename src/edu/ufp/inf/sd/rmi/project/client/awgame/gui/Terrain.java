@@ -15,7 +15,7 @@ public class Terrain {
 		int size = (int) Math.pow(2, Game.load.Times_Terrain);
 		int xoff = Game.view.ViewX();
 		int yoff = Game.view.ViewY();
-		
+
 		for (int y=0; y < Game.map.height; y++) {
 			for (int x=0; x < Game.map.width; x++) {
 				if (Game.view.Viewable(x,y)) {
