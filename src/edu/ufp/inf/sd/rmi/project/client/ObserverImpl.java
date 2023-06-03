@@ -1,5 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.client;
 
+import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -8,9 +10,24 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
 
     private String lobby;
 
-    public ObserverImpl(String u,String l) throws RemoteException {
+    private int character;
+
+    private Game game;
+
+    public ObserverImpl(String u, int character, Game g) throws RemoteException {
         this.username = u;
-        this.lobby = l;
+        this.character = character;
+        this.game = g;
+    }
+
+    @Override
+    public int getCharacter() throws RemoteException{
+        return character;
+    }
+
+    @Override
+    public String getLobby() throws RemoteException{
+        return lobby;
     }
 
     @Override
@@ -21,5 +38,11 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
     @Override
     public void update() throws RemoteException{
 
+    }
+
+    @Override
+    public void start() throws RemoteException{
+        System.out.println(getLobby());
+        game.start(this.lobby);
     }
 }

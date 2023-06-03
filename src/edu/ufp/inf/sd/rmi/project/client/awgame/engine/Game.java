@@ -1,9 +1,11 @@
 package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
 import edu.ufp.inf.sd.rmi.project.client.ObserverImpl;
+import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.client.awgame.buildings.Base;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionRI;
+import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
 
 import java.awt.Dimension;
 import java.awt.Image;

@@ -32,7 +32,10 @@ public class LoadImages {
 	
 	/**This will initialize the different sprite sheets/atlas*/
 	public LoadImages() {
+
+
 		Toolkit tool = Toolkit.getDefaultToolkit();
+		System.out.println("HEYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + tool.getImage(getClass().getResource("../img/"+"Units"+".png")));
 		Game.img_char = tool.getImage(getClass().getResource("../img/"+"Units"+".png"));
 		Game.img_tile = tool.getImage(getClass().getResource("../img/"+"Terrain"+".png"));
 		Game.img_city = tool.getImage(getClass().getResource("../img/"+"Cities"+".png"));

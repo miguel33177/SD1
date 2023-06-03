@@ -147,6 +147,7 @@ public class PlayerSelectionModeOnline implements ActionListener {
         try {
             Game.o = new ObserverImpl(Game.username, this.lobbyName);
             this.lobbyName = Game.gameSession.joinLobby(mapname, Game.o);
+            //Game.o.setLobby(this.lobbyName);
         } catch (RemoteException ex) {
             throw new RuntimeException(ex);
         }

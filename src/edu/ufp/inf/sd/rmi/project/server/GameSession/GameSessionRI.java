@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface GameSessionRI extends Remote {
+    LobbyRI getLobby(String l) throws RemoteException;
     String createLobby(String mapName, ObserverRI o) throws RemoteException;
 
     void leaveLobby(String l, ObserverRI o) throws RemoteException;
