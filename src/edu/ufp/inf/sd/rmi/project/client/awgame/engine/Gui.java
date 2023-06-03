@@ -2,6 +2,8 @@ package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
 import edu.ufp.inf.sd.rmi.project.client.awgame.gui.*;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.LoginRegister;
+import edu.ufp.inf.sd.rmi.project.client.awgame.menus.MenuHandler;
+import edu.ufp.inf.sd.rmi.project.client.awgame.menus.ModeOnline;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,6 +45,14 @@ public class Gui extends JPanel {
 	public void InGameScreen() {
 		removeAll();
 		Game.GameState=Game.State.PLAYING;
+		if (Game.error.showing) {add(Game.error);}
+	}
+
+	public void closeInGameScreen(){
+		removeAll();
+		MenuHandler.CloseMenu();
+		Game.GameState = Game.State.MENU;
+		new ModeOnline();
 		if (Game.error.showing) {add(Game.error);}
 	}
 

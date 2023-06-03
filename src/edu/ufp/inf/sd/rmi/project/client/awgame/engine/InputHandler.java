@@ -47,6 +47,7 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 	private final int select = KeyEvent.VK_Z;
 	private final int cancel = KeyEvent.VK_X;
 	private final int start = KeyEvent.VK_ENTER;
+	private final int passTurn = KeyEvent.VK_P;
 	
 	//Mouse (right/left clicks)
 	private final int main = MouseEvent.BUTTON1;
@@ -66,26 +67,28 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 			try {
 				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
 				if (i == up) {
-					lobby.setState("up");
+					lobby.setState("up", Game.o);
 					//ply.selecty--;if (ply.selecty<0) {ply.selecty++;}
 				} else if (i == down) {
-					lobby.setState("down");
+					lobby.setState("down", Game.o);
 					//ply.selecty++;if (ply.selecty>=Game.map.height) {ply.selecty--;}
 				} else if (i == left) {
-					lobby.setState("left");
+					lobby.setState("left", Game.o);
 					//ply.selectx--;if (ply.selectx<0) {ply.selectx++;}
 				} else if (i == right) {
-					lobby.setState("right");
+					lobby.setState("right", Game.o);
 					//ply.selectx++;if (ply.selectx>=Game.map.width) {ply.selectx--;}
 				} else if (i == select) {
-					lobby.setState("select");
+					lobby.setState("select", Game.o);
 					//Game.btl.Action();
 				} else if (i == cancel) {
 					lobby.setState("cancel");
 					//Game.player.get(Game.btl.currentplayer).Cancle();
 				} else if (i == start) {
-					lobby.setState("start");
+					lobby.setState("start", Game.o);
 					new Pause();
+				} else if(i == passTurn){
+					lobby.setState("passTurn", Game.o);
 				}
 			}
 			catch (RemoteException x){

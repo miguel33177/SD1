@@ -50,8 +50,14 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     }
 
     @Override
-    public void setState(String state) throws RemoteException{
-        this.state = state;
+    public void setState(String state, ObserverRI o) throws RemoteException{
+        if(this.tokenRing.getHolder() == this.observers.indexOf(o)){
+            this.state = state;
+            this.notifyObservers();
+            if(state.compareTo("passTurn") == 0){
+                this.tokenRing.passToken();
+            }
+        }
     }
 
     @Override
@@ -112,4 +118,13 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
             o.update();
         }
     }
+
+    @Override
+    public void closeGame() throws RemoteException{
+        for(ObserverRI obs : observers){
+            obs.lobbyClosed();
+        }
+        observers.clear();
+    }
+
 }

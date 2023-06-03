@@ -7,6 +7,7 @@ import edu.ufp.inf.sd.rmi.project.client.awgame.players.Base;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
+import java.awt.*;
 
 public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
     private final String username;
@@ -86,5 +87,10 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
     public void start() throws RemoteException{
         System.out.println(getLobby());
         game.start(this.lobby);
+    }
+
+    @Override
+    public void lobbyClosed() throws RemoteException{
+        Game.gui.closeInGameScreen();
     }
 }
