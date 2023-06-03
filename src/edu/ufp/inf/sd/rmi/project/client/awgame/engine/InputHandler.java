@@ -4,6 +4,8 @@ import edu.ufp.inf.sd.rmi.project.client.awgame.menus.EditorMenu;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.Pause;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.StartMenu;
 import edu.ufp.inf.sd.rmi.project.client.awgame.players.Base;
+import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
+import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,14 +63,34 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 		if (i==exit) {System.exit(0);}
 		if (Game.GameState==Game.State.PLAYING) {
 			Base ply = Game.player.get(Game.btl.currentplayer);
-			
-			if (i==up) {ply.selecty--;if (ply.selecty<0) {ply.selecty++;}}
-			else if (i==down) {ply.selecty++;if (ply.selecty>=Game.map.height) {ply.selecty--;}}
-			else if (i==left) {ply.selectx--;if (ply.selectx<0) {ply.selectx++;}}
-			else if (i==right) {ply.selectx++;if (ply.selectx>=Game.map.width) {ply.selectx--;}}
-			else if (i==select) {Game.btl.Action();}
-			else if (i==cancel) {Game.player.get(Game.btl.currentplayer).Cancle();}
-			else if (i==start) {new Pause();}
+			try {
+				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
+				if (i == up) {
+					lobby.setState("up");
+					//ply.selecty--;if (ply.selecty<0) {ply.selecty++;}
+				} else if (i == down) {
+					lobby.setState("down");
+					//ply.selecty++;if (ply.selecty>=Game.map.height) {ply.selecty--;}
+				} else if (i == left) {
+					lobby.setState("left");
+					//ply.selectx--;if (ply.selectx<0) {ply.selectx++;}
+				} else if (i == right) {
+					lobby.setState("right");
+					//ply.selectx++;if (ply.selectx>=Game.map.width) {ply.selectx--;}
+				} else if (i == select) {
+					lobby.setState("select");
+					//Game.btl.Action();
+				} else if (i == cancel) {
+					lobby.setState("cancel");
+					//Game.player.get(Game.btl.currentplayer).Cancle();
+				} else if (i == start) {
+					lobby.setState("start");
+					new Pause();
+				}
+			}
+			catch (RemoteException x){
+				x.printStackTrace();
+			}
 		}
 		if (Game.GameState==Game.State.EDITOR) {
 			if (i==up) {Game.edit.selecty--;if (Game.edit.selecty<0) {Game.edit.selecty++;} Game.edit.moved = true;}

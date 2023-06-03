@@ -45,6 +45,26 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     }
 
     @Override
+    public String getState() throws RemoteException {
+        return state;
+    }
+
+    @Override
+    public void setState(String state) throws RemoteException{
+        this.state = state;
+    }
+
+    @Override
+    public boolean isGameOn() throws RemoteException{
+        return gameOn;
+    }
+
+    @Override
+    public void setGameOn(boolean gameOn) throws RemoteException {
+        this.gameOn = gameOn;
+    }
+
+    @Override
     public String getMap() throws RemoteException{
         return map;
     }
@@ -63,12 +83,14 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
             this.getObservers().add(o);
         }
         if(this.getObservers().size() == maxPlayers){
-            o.start();
+            notifyGameStarting();
         }
     }
 
     @Override
     public void notifyGameStarting() throws RemoteException{
+        setGameOn(true);
+        this.tokenRing = new TokenRing(this.maxPlayers);
         for(ObserverRI x : this.observers){
             try {
                 x.start();
