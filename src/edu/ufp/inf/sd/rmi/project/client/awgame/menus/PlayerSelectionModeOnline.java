@@ -105,8 +105,12 @@ public class PlayerSelectionModeOnline implements ActionListener {
             new WaitingStartModeOnline(this.lobbyName);
         } else if (s == ThunderbirdsAreGo && joinLobby) {
             handleJoinLobby();
-            if(this.lobbyName != null){
-                new WaitingStartModeOnline(this.lobbyName);
+            try {
+                if(this.lobbyName != null && !Game.gameSession.getLobby(this.lobbyName).isGameOn()){
+                    new WaitingStartModeOnline(this.lobbyName);
+                }
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
             }
         }
         for (int i = 0; i < 1; i++) {

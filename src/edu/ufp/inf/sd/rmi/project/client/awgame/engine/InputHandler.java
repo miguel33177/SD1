@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * Keyboard handling for the game along with the mouse setup for game handling.

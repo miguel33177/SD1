@@ -1,7 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.server.Lobby;
 
-import edu.ufp.inf.sd.rmi.project.client.ObserverImpl;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
+import edu.ufp.inf.sd.rmi.project.server.TokenRing;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -17,6 +17,13 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
 
     private String map;
     private String lobbyName;
+
+    private boolean gameOn = false;
+
+    private TokenRing tokenRing;
+
+    private String state;
+
 
     public LobbyImpl(String map) throws RemoteException{
         idCounter++;

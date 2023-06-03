@@ -7,6 +7,14 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface LobbyRI extends Remote {
+    String getState() throws RemoteException;
+
+    void setState(String state) throws RemoteException;
+
+    boolean isGameOn() throws RemoteException;
+
+    void setGameOn(boolean gameOn) throws RemoteException;
+
     String getMap() throws RemoteException;
 
     List<ObserverRI> getObservers() throws RemoteException;
