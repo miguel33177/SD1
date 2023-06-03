@@ -1,6 +1,8 @@
 package edu.ufp.inf.sd.rmi.project.client;
 
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
+import edu.ufp.inf.sd.rmi.project.client.awgame.menus.MenuHandler;
+import edu.ufp.inf.sd.rmi.project.client.awgame.menus.ModeOnline;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.Pause;
 import edu.ufp.inf.sd.rmi.project.client.awgame.players.Base;
 
@@ -79,7 +81,12 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
                 Game.player.get(Game.btl.currentplayer).Cancle();
             }
             else if (Objects.equals(move, "start")) {
-                new Pause();}
+                new Pause();
+            }
+            else if (Objects.equals(move, "passTurn")) {
+                MenuHandler.CloseMenu();
+                Game.btl.EndTurn();
+            }
         }
     }
 

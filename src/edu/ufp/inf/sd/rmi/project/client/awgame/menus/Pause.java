@@ -3,6 +3,7 @@ package edu.ufp.inf.sd.rmi.project.client.awgame.menus;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.JButton;
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
@@ -53,12 +54,31 @@ public class Pause implements ActionListener {
 		Object s = e.getSource();
 		if (s==Quit) {
 			MenuHandler.CloseMenu();
-			Game.gui.LoginScreen();
+			LobbyRI lobby = null;
+			try {
+				lobby = Game.gameSession.getLobby(Game.o.getLobby());
+			} catch (RemoteException ex) {
+				throw new RuntimeException(ex);
+			}
+			try {
+				lobby.closeGame();
+			} catch (RemoteException ex) {
+				throw new RuntimeException(ex);
+			}
+			try {
+				Game.gameSession.deleteLobby();
+			} catch (RemoteException ex) {
+				throw new RuntimeException(ex);
+			}
+			new ModeOnline();
+
 		}
+		/*
 		else if (s==EndTurn) {
 			MenuHandler.CloseMenu();
 			Game.btl.EndTurn();
 		}
+		*/
 		else if (s==Resume) {MenuHandler.CloseMenu();}
 		else if (s==Save) {Game.save.SaveGame();}
 		else if (s==Options) {new Options();}

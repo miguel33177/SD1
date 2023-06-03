@@ -15,4 +15,6 @@ public interface ObserverRI extends Remote {
     void setLobby(String lobby) throws RemoteException;
 
     void update() throws RemoteException;
+
+    void lobbyClosed() throws RemoteException;
 }

@@ -82,7 +82,7 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 					lobby.setState("select", Game.o);
 					//Game.btl.Action();
 				} else if (i == cancel) {
-					lobby.setState("cancel");
+					lobby.setState("cancel", Game.o);
 					//Game.player.get(Game.btl.currentplayer).Cancle();
 				} else if (i == start) {
 					lobby.setState("start", Game.o);

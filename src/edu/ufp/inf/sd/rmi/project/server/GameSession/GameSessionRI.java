@@ -20,4 +20,6 @@ public interface GameSessionRI extends Remote {
     ArrayList<String> getLobbies() throws RemoteException;
     ArrayList<Integer> getLobbiesCurrPlayers() throws RemoteException;
     ArrayList<Integer> getLobbiesMaxPlayers() throws RemoteException;
+
+    void deleteLobby() throws RemoteException;
 }

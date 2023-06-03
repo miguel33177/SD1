@@ -4,12 +4,10 @@ import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
 
-import javax.security.auth.Subject;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observer;
 
 public class GameSessionImpl extends UnicastRemoteObject implements GameSessionRI {
     private HashMap<String, LobbyImpl> lobbies;
@@ -99,5 +97,14 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
         l = l.substring(startIndex).trim();
         LobbyImpl lobby = lobbies.get(l);
         return lobby.getObservers().size() < lobby.getMaxPlayers();
+    }
+    @Override
+    public synchronized void deleteLobby() throws RemoteException{
+        for(LobbyImpl l : arrayLobbies){
+            if(l.getObservers().size() == 0){
+                lobbies.remove(l.getMap() + "#" + l.getId());
+                arrayLobbies.remove(l);
+            }
+        }
     }
 }

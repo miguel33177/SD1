@@ -9,7 +9,7 @@ import java.util.List;
 public interface LobbyRI extends Remote {
     String getState() throws RemoteException;
 
-    void setState(String state) throws RemoteException;
+    void setState(String state,ObserverRI o) throws RemoteException;
 
     boolean isGameOn() throws RemoteException;
 
@@ -28,4 +28,5 @@ public interface LobbyRI extends Remote {
     void notifyGameStarting() throws RemoteException;
 
 
+    void closeGame() throws RemoteException;
 }
