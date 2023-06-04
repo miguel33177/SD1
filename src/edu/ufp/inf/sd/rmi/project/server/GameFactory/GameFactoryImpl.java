@@ -18,6 +18,7 @@ import java.util.*;
 
 public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryRI {
     private final HashMap<String, User> hashMap;
+    private final ArrayList<String> loggedUsers;
     private HashMap<String, LobbyImpl> hash;
     private ArrayList<LobbyImpl> array;
 
@@ -26,6 +27,7 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
         this.hashMap = new HashMap<>();
         this.hash = new HashMap<>();
         this.array = new ArrayList<>();
+        this.loggedUsers = new ArrayList<>();
         loadHashMap();
         addShutdownHook();
     }
@@ -107,7 +109,7 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
     @Override
     public boolean login(String username,String password) throws RemoteException {
         User user = hashMap.get(username);
-        if (user != null && user.getPasswordHash() == password.hashCode()) {
+        if (user != null && user.getPasswordHash() == password.hashCode() && !this.loggedUsers.contains(username)) {
             String storedToken = user.getToken();
             if (storedToken != null) {
                 try {
@@ -122,6 +124,7 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
                     user.setToken(newToken);
                 }
             }
+            this.loggedUsers.add(username);
             return true;
         } else {
             return false;
