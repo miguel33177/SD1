@@ -1,4 +1,4 @@
-package edu.ufp.inf.sd.rabbitmqservices.util.threading;
+package edu.ufp.inf.sd.rabbit.util.threading;
 
 import java.util.LinkedList;
 import java.util.logging.Level;

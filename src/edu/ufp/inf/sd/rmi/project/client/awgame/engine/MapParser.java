@@ -26,7 +26,7 @@ public class MapParser {
 	//Handles building construction after the decoding loop is finished.
 	String CityString;
 	Vector<Point> CityPoint;
-	String path = "/Users/brunomiguel/IdeaProjects/SD1/src/edu/ufp/inf/sd/rmi/project/client/awgame/maps";
+	String path = "C:\\Users\\Miguel\\Downloads\\SD1\\src\\edu\\ufp\\inf\\sd\\rmi\\project\\client\\awgame\\maps";
 
 	
 	public void encode(String mapname) {

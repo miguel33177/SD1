@@ -15,17 +15,17 @@ export SCRIPT_ROLE=$1
 #@REM ======================== CHANGE BELOW ACCORDING YOUR PROJECT and PC SETTINGS ========================
 #@REM =====================================================================================================
 # @REM ==== PC STUFF ====
-export JDK=/Users/brunomiguel/Library/Java/JavaVirtualMachines/corretto-1.8.0_362/Contents/Home
+export JDK=C:\Users\bruno\.jdks\openjdk-20.0.1
 #@REM These vars will be used MAIL_TO_ADDR check the output folder (whereto classes are generated)
 export NETBEANS=NetBeans
 export INTELLIJ=IntelliJ
 export CURRENT_IDE=${INTELLIJ}
 #export CURRENT_IDE=¢{NETBEANS}
-export USERNAME=brunomiguel
+export USERNAME=bruno
 
 #@REM ==== JAVA NAMING STUFF ====
 export JAVAPROJ_NAME=SD1
-export JAVAPROJ=/Users/brunomiguel/IdeaProjects/SD1
+export JAVAPROJ=C:\Users\bruno\Downloads\SD1_9\SD1
 
 export PACKAGE=project
 export PACKAGE_PREFIX=edu.ufp.inf.sd.rmi
@@ -94,7 +94,7 @@ export JAVAPROJ_JAR_FILE=${JAVAPROJ_NAME}.jar
 export MYSQL_CON_JAR=mysql-connector-java-5.1.38-bin.jar
 
 
-export CLASSPATH=".:${JAVAPROG_CLASSES_FOLDER}:${JAVAPROJ}/lib/jackson-annotations-2.14.2.jar:${JAVAPROJ}/lib/jackson-core-2.14.2.jar:${JAVAPROJ}/lib/jackson-databind-2.14.2.jar:${JAVAPROJ}/lib/java-jwt-4.4.0.jar"
+export CLASSPATH=".:${JAVAPROG_CLASSES_FOLDER}:${JAVAPROJ}/lib/jackson-annotations-2.14.2.jar:${JAVAPROJ}/lib/jackson-core-2.14.2.jar:${JAVAPROJ}/lib/jackson-databind-2.14.2.jar:${JAVAPROJ}/lib/java-jwt-4.4.0.jar:${JAVAPROJ}/lib/slf4j-simple-1.7.30.jar:${JAVAPROJ}/lib/slf4j-api-1.7.30.jar:${JAVAPROJ}/lib/amqp-client-5.11.0.jar"
 
 #export CLASSPATH=.:${JAVAPROJ_DIST_FOLDER}/${JAVAPROJ_JAR_FILE}:${JAVAPROJ_DIST_LIB_FOLDER}/${MYSQL_CON_JAR}
 

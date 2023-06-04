@@ -1,5 +1,6 @@
 package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
+import com.rabbitmq.client.Channel;
 import edu.ufp.inf.sd.rmi.project.client.ObserverImpl;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.client.awgame.buildings.Base;
@@ -23,6 +24,8 @@ public class Game extends JFrame {
     public static int character;
 
     public static Game pointer;
+    public static Channel channel;
+    public static boolean isRabbitmq = false;
 
 
     private static final long serialVersionUID = 1L;
@@ -105,10 +108,9 @@ public class Game extends JFrame {
         GameLoop();
     }
 
-    public Game() {
+    public Game(GameFactoryRI gameFactoryRI, Channel channel) {
         super(name);
-       // pointer = this;
-       // gameFactory = gameFactoryRI;
+
         //Default Settings of the JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(20 * ScreenBase + 6, 12 * ScreenBase + 12));
@@ -117,8 +119,13 @@ public class Game extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
+        isRabbitmq = true;
+        Game.gameFactory = gameFactoryRI;
+        Game.channel = channel;
+        pointer = this;
+
         //Creates all the gui elements and sets them up
-        //gui = new Gui(this);
+        gui = new Gui(this);
         add(gui);
         gui.setFocusable(true);
         gui.requestFocusInWindow();
@@ -195,8 +202,8 @@ public class Game extends JFrame {
         boolean[] bots = {false, false, false, false};
         int[] characters = new int[4];
         LobbyRI lobby = gameSession.getLobby(l);
-        var observers = lobby.getObservers();
-        var i = 0;
+        List<ObserverRI> observers = lobby.getObservers();
+        int i = 0;
         for (ObserverRI x : observers) {
             characters[i] = x.getCharacter();
             i++;

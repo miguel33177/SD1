@@ -1,10 +1,17 @@
-package edu.ufp.inf.sd.rabbitmqservices.project.client;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
 
-import com.rabbitmq.client.*;
+package edu.ufp.inf.sd.rabbit.project.client;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
+import edu.ufp.inf.sd.rmi.project.server.ProjectServer;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
-
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProjectClient {
-
     private SetupContextRMI contextRMI;
     private GameFactoryRI gameFactoryRI;
     private Connection connection;
@@ -23,52 +29,60 @@ public class ProjectClient {
 
     private void lookupService() {
         try {
-            Registry registry = contextRMI.getRegistry();
+            Registry registry = this.contextRMI.getRegistry();
             if (registry != null) {
-                String serviceUrl = contextRMI.getServicesUrl(0);
+                String serviceUrl = this.contextRMI.getServicesUrl(0);
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to lookup service @ {0}", serviceUrl);
-                gameFactoryRI = (GameFactoryRI) registry.lookup(serviceUrl);
+                this.gameFactoryRI = (GameFactoryRI)registry.lookup(serviceUrl);
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
             }
-        } catch (RemoteException | NotBoundException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException | RemoteException var3) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, (String)null, var3);
         }
-    }
-    private void initContext(String[] args) {
 
+    }
+
+    private void initContext(String[] args) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
-        try {
-            connection = factory.newConnection();
-            channel = connection.createChannel();
-            String exchangeName = "gameExchanger";
-            channel.exchangeDeclare(exchangeName, "topic");
-        } catch (IOException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
-        //int port = 5672;
-        System.out.println(args);
 
+        String registryIP;
+        try {
+            this.connection = factory.newConnection();
+            this.channel = this.connection.createChannel();
+            registryIP = "Exchanger";
+            this.channel.exchangeDeclare(registryIP, "topic");
+        } catch (TimeoutException | IOException var7) {
+            throw new RuntimeException(var7);
+        }
+
+        System.out.println(args);
         System.out.println(Arrays.toString(args));
+
         try {
             SetupContextRMI.printArgs(this.getClass().getName(), args);
-            String registryIP = args[0];
+            registryIP = args[0];
             String registryPort = args[1];
             String serviceName = args[2];
             this.contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName});
-        } catch (RemoteException e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+        } catch (RemoteException var6) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, (String)null, var6);
         }
+
     }
+
     public ProjectClient(String[] args) {
         this.initContext(args);
         this.lookupService();
         this.playService();
     }
-    private void playService() {new Game(this.gameFactoryRI);}
+
+    private void playService() {
+        new Game(this.gameFactoryRI, channel);
+    }
 
     public static void main(String[] args) {
-       ProjectClient client = new ProjectClient(args);
+        new ProjectClient(args);
     }
 }

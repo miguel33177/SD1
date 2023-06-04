@@ -1,11 +1,14 @@
 package edu.ufp.inf.sd.rmi.project.server;
 
+import com.rabbitmq.client.*;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryImpl;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +17,8 @@ public class ProjectServer {
     private GameFactoryRI gameFactoryRI;
 
     private SetupContextRMI contextRMI;
+    private transient Connection connection;
+    private transient Channel channel;
 
     public ProjectServer(String args[]) {
         try {
@@ -50,8 +55,23 @@ public class ProjectServer {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void setConnection() throws IOException, TimeoutException {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        this.connection = factory.newConnection();
+        this.channel = this.connection.createChannel();
+        channel.queueDeclare("serverQueues", false, false, false, null);
 
-    public static void main(String[] args) {
+        DeliverCallback deliverCallbackTopic = (consumerTag, delivery) -> {
+            String message = new String(delivery.getBody(), "UTF-8");
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MESSAGE RECEIVED:" + message);
+            //this.gameHandler(message);
+        };
+        this.channel.basicConsume("serverQueues", true, deliverCallbackTopic, consumerTag -> {
+        });
+    }
+
+    public static void main(String[] args) throws IOException, TimeoutException {
              if (args != null && args.length < 2) {
                  System.err.println("usage: java [options] edu.ufp.sd.inf.rmi._01_helloworld.server.HelloWorldServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
                  System.exit(-1);

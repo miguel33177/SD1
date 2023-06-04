@@ -12,10 +12,10 @@
 
 @REM ======================== CHANGE BELOW ACCORDING YOUR PROJECT and PC SETTINGS ========================
 @REM ==== PC STUFF ====
-@Set USERNAME=Miguel
+@Set USERNAME=bruno
 
 @Set WORKDRIVE=C
-@Set JDK=C:\Users\Miguel\.jdks\corretto-1.8.0_322
+@Set JDK=C:\Users\Miguel\.jdks\openjdk-20.0.1
 @REM These vars will be used to check the output folder (whereto classes are generated)
 @SET NETBEANS=NetBeans
 @SET INTELLIJ=IntelliJ
@@ -24,7 +24,7 @@
 
 @REM ==== JAVA NAMING STUFF ====
 @Set JAVAPROJ_NAME=SD1
-@set JAVAPROJ=%WORKDRIVE%:\\Users\\%USERNAME%\\IdeaProjects\\%JAVAPROJ_NAME%
+@set JAVAPROJ=C:\Users\Miguel\Downloads\SD1
 @Set PACKAGE=project
 @Set PACKAGE_PREFIX=edu.ufp.inf.sd.rmi
 @Set PACKAGE_PREFIX_FOLDERS=edu/ufp/inf/sd/rmi
@@ -87,7 +87,7 @@ IF "%CURRENT_IDE%"=="%INTELLIJ%" (
 @set JAVAPROJ_DIST_FOLDER=%JAVAPROJ%\%JAVAPROJ_DIST%
 @set JAVAPROJ_JAR_FILE=%JAVAPROJ_NAME%.jar
 
-@set CLASSPATH=.;%JAVAPROG_CLASSES_FOLDER%;%JAVAPROJ%\\lib\\jackson-annotations-2.14.2.jar;%JAVAPROJ%\\lib\\jackson-core-2.14.2.jar;%JAVAPROJ%\\lib\\jackson-databind-2.14.2.jar;%JAVAPROJ%\\lib\\java-jwt-4.4.0.jar;
+@set CLASSPATH=.;%JAVAPROG_CLASSES_FOLDER%;C:\Users\Miguel\Downloads\SD1\lib\*;
 @REM @set CLASSPATH=.;%JAVAPROJ_DIST_FOLDER%/%JAVAPROJ_JAR_FILE%.jar
 
 @Set ABSPATH2CLASSES=%JAVAPROJ%\%JAVAPROJ_CLASSES%

@@ -1,4 +1,4 @@
-package edu.ufp.inf.sd.rabbitmqservices.util.rmisetup;
+package edu.ufp.inf.sd.rabbit.util.rmisetup;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -114,7 +114,7 @@ public class SetupContextRMI {
     private void setupSecurityManager() {
         if (System.getSecurityManager() == null) {
             logger.log(Level.INFO, "set security manager for {0}", subsystemClass.getName());
-        //    System.setSecurityManager(new SecurityManager());
+            System.setSecurityManager(null);
         }
     }
 

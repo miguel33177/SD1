@@ -1,4 +1,4 @@
-package edu.ufp.inf.sd.rabbitmqservices.util.rabbit;
+package edu.ufp.inf.sd.rabbit.util.rabbitUtil;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
