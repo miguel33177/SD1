@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionImpl;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionRI;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
@@ -149,5 +148,10 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
     @Override
     public GameSessionRI getSession() throws RemoteException {
         return new GameSessionImpl(hash,array);
+    }
+
+    @Override
+    public void logout(String u) throws RemoteException{
+        this.loggedUsers.remove(u);
     }
 }

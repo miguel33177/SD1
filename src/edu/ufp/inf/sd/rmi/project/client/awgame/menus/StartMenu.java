@@ -3,6 +3,7 @@ package edu.ufp.inf.sd.rmi.project.client.awgame.menus;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -92,6 +93,12 @@ public class StartMenu implements ActionListener {
 		}
 		else if (s==Credits) {new Credits();}
 		else if (s==Options) {new Options();}
-		else if (s==Exit) {System.exit(0);}
+		else if (s==Exit) {
+			try {
+				Game.gameFactory.logout(Game.username);
+			} catch (RemoteException ex) {
+				ex.printStackTrace();
+			}
+			System.exit(0);}
 	}
 }

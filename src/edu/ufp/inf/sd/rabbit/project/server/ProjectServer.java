@@ -29,12 +29,12 @@ public class ProjectServer {
         factory.setHost("localhost");
         this.connection = factory.newConnection();
         this.channel = this.connection.createChannel();
-        this.channel.queueDeclare("serverQueues", false, false, false, (Map)null);
+        this.channel.queueDeclare("serverQueues", false, false, false, null);
         DeliverCallback deliverCallbackTopic = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MESSAGE RECEIVED:" + message);
             String routeKey = "server";
-            this.channel.basicPublish("Exchanger", routeKey, (AMQP.BasicProperties)null, message.getBytes(StandardCharsets.UTF_8));
+            this.channel.basicPublish("Exchanger", routeKey, null, message.getBytes(StandardCharsets.UTF_8));
         };
         this.channel.basicConsume("serverQueues", true, deliverCallbackTopic, (consumerTag) -> {
         });

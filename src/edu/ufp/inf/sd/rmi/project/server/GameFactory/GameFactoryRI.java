@@ -19,4 +19,6 @@ public interface GameFactoryRI extends Remote {
     String generateToken(String username, String password, Date expirationDate) throws RemoteException;
 
     GameSessionRI getSession() throws RemoteException;
+
+    void logout(String u) throws RemoteException;
 }
