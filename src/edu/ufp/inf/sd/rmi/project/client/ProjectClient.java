@@ -1,5 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.client;
 
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
 import edu.ufp.inf.sd.rmi.project.server.GameFactory.GameFactoryRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
@@ -11,34 +13,15 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProjectClient {
+    private Connection connection;
+    private Channel channel;
     private GameFactoryRI gameFactoryRI;
     private SetupContextRMI contextRMI;
-    public static String token;
-    private Game game;
-
-    private static boolean inLobby = false;
-
-    private static String lobbyName;
-
-    public static boolean isInLobby() {
-        return inLobby;
-    }
-
-    public static void setInLobby(boolean inLobby) {
-        ProjectClient.inLobby = inLobby;
-    }
-
-    public static String getLobbyName() {
-        return lobbyName;
-    }
-
-    public static void setLobbyName(String lobbyName) {
-        ProjectClient.lobbyName = lobbyName;
-    }
 
     public static void main(String[] args) {
         if (args != null && args.length < 2) {
@@ -46,8 +29,23 @@ public class ProjectClient {
             System.exit(-1);
         } else {
             ProjectClient client = new ProjectClient(args);
+            client.initContext();
             client.lookupService();
             client.playService();
+        }
+    }
+
+    private void initContext() {
+
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        try {
+            connection = factory.newConnection();
+            channel = connection.createChannel();
+            String exchangeName = "gameExchanger";
+            channel.exchangeDeclare(exchangeName, "topic");
+        } catch (IOException | TimeoutException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -79,7 +77,8 @@ public class ProjectClient {
     }
 
     private void playService() {
-        new Game(this.gameFactoryRI);
+        new Game(this.gameFactoryRI); //RMI IMPL
+        //new Game(this.gameFactoryRI, this.channel);  //RABBIT IMPL
     }
 
 }

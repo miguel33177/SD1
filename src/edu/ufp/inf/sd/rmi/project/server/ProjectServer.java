@@ -80,6 +80,7 @@ public class ProjectServer {
                  ProjectServer hws = new ProjectServer(args);
                  // 2. ============ Rebind service ============
                  hws.rebindService();
+                 hws.setConnection();
              }
          }
 }

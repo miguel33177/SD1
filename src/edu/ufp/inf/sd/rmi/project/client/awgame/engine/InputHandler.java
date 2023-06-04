@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -62,7 +64,7 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 	public void keyPressed(KeyEvent e) {
 		int i=e.getKeyCode();
 		if (i==exit) {System.exit(0);}
-		if (Game.GameState==Game.State.PLAYING) {
+		if (Game.GameState==Game.State.PLAYING && !Game.isRabbitmq) {
 			Base ply = Game.player.get(Game.btl.currentplayer);
 			try {
 				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
@@ -93,6 +95,35 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 			}
 			catch (RemoteException x){
 				x.printStackTrace();
+			}
+		}
+		else if(Game.GameState == Game.State.PLAYING == Game.isRabbitmq){
+			Base ply = Game.player.get(Game.btl.currentplayer);
+			try {
+				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
+				if (i == up) {
+					Game.channel.basicPublish("Exchanger","server",null,"up".getBytes(StandardCharsets.UTF_8));
+				} else if (i == down) {
+					Game.channel.basicPublish("Exchanger","server",null,"down".getBytes(StandardCharsets.UTF_8));
+				} else if (i == left) {
+					Game.channel.basicPublish("Exchanger","server",null,"left".getBytes(StandardCharsets.UTF_8));
+				} else if (i == right) {
+					Game.channel.basicPublish("Exchanger","server",null,"right".getBytes(StandardCharsets.UTF_8));
+				} else if (i == select) {
+					Game.channel.basicPublish("Exchanger","server",null,"select".getBytes(StandardCharsets.UTF_8));
+				} else if (i == cancel) {
+					Game.channel.basicPublish("Exchanger","server",null,"cancel".getBytes(StandardCharsets.UTF_8));
+				} else if (i == start) {
+					Game.channel.basicPublish("Exchanger","server",null,"start".getBytes(StandardCharsets.UTF_8));
+					new Pause();
+				} else if(i == passTurn){
+					Game.channel.basicPublish("Exchanger","server",null,"passTurn".getBytes(StandardCharsets.UTF_8));
+				}
+			}
+			catch (RemoteException x){
+				x.printStackTrace();
+			} catch (IOException ex) {
+				throw new RuntimeException(ex);
 			}
 		}
 		if (Game.GameState==Game.State.EDITOR) {
