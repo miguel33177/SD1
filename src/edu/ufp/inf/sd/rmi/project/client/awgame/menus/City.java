@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
 import edu.ufp.inf.sd.rmi.project.client.awgame.units.Base;
+import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
 
 /**
  * Displays a list of available units, and some information about them to buy.
@@ -94,7 +96,18 @@ public class City implements ActionListener,ListSelectionListener {
 		Object s = e.getSource();
 		if (s==Return) {MenuHandler.CloseMenu();}
 		else if (s==Buy) {
-			Game.btl.Buyunit(ids[Units.getSelectedIndex()], x, y);
+			System.out.println("HELLO");
+			try{
+				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
+				if (!Units.isSelectionEmpty()){
+					lobby.setState("" + ids[Units.getSelectedIndex()] + ":" + x +":" + y, Game.o);
+					//Game.btl.Buyunit(ids[Units.getSelectedIndex()], x, y);
+				}
+
+			}
+			catch (RemoteException x){
+				x.printStackTrace();
+			}
 			MenuHandler.CloseMenu();
 		}
 	}

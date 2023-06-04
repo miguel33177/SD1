@@ -86,6 +86,13 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
             else if (Objects.equals(move, "passTurn")) {
                 MenuHandler.CloseMenu();
                 Game.btl.EndTurn();
+            }else{
+                String[] arr = move.split(":");
+                int item = Integer.parseInt(arr[0]);
+                int x = Integer.parseInt(arr[1]);
+                int y = Integer.parseInt(arr[2]);
+                Game.btl.Buyunit(item, x, y);
+
             }
         }
     }

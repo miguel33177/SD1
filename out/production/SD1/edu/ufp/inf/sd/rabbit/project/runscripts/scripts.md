@@ -1,9 +1,0 @@
-```shell
-./runobserver.bat
-```
-```shell
-./runproducer.bat
-```
-```shell
-./runfrontserver.bat
-```
