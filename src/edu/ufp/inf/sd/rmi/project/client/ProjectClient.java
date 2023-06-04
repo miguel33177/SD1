@@ -12,7 +12,7 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProjectClient implements Observer{
+public class ProjectClient {
     private GameFactoryRI gameFactoryRI;
     private SetupContextRMI contextRMI;
     public static String token;
@@ -80,8 +80,4 @@ public class ProjectClient implements Observer{
         new Game(this.gameFactoryRI);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
 }
