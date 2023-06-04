@@ -29,4 +29,6 @@ public interface LobbyRI extends Remote {
 
 
     void closeGame() throws RemoteException;
+
+    ObserverRI getCurrentPlayer() throws RemoteException;
 }

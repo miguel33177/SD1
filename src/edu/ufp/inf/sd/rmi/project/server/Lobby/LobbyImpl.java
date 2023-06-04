@@ -127,4 +127,8 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
         observers.clear();
     }
 
+    @Override
+    public ObserverRI getCurrentPlayer() throws RemoteException{
+        return this.observers.get(this.tokenRing.getHolder());
+    }
 }

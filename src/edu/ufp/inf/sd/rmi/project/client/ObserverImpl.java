@@ -81,12 +81,15 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
                 Game.player.get(Game.btl.currentplayer).Cancle();
             }
             else if (Objects.equals(move, "start")) {
-                new Pause();
+                if(Game.gameSession.getLobby(Game.o.getLobby()).getCurrentPlayer() == Game.o){
+                    new Pause();
+                }
             }
             else if (Objects.equals(move, "passTurn")) {
                 MenuHandler.CloseMenu();
                 Game.btl.EndTurn();
-            }else{
+            }
+            else{
                 String[] arr = move.split(":");
                 int item = Integer.parseInt(arr[0]);
                 int x = Integer.parseInt(arr[1]);
