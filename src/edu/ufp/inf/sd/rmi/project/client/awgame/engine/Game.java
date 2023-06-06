@@ -1,6 +1,8 @@
 package edu.ufp.inf.sd.rmi.project.client.awgame.engine;
 
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import edu.ufp.inf.sd.rmi.project.client.ObserverImpl;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.client.awgame.buildings.Base;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
@@ -26,6 +29,7 @@ public class Game extends JFrame {
 
     public static Game pointer;
     public static Channel channel;
+    public static Connection con;
     public static boolean isRabbitmq = false;
 
 
@@ -213,6 +217,16 @@ public class Game extends JFrame {
         Game.btl.NewGame(lobby.getMap());
         Game.btl.AddCommanders(characters,bots,100,50);
         Game.gui.InGameScreen();
+        if(!Game.gameFactory.hasChannel()){
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setHost("localhost");
+            try {
+                con = factory.newConnection();
+                channel = con.createChannel();
+            } catch (IOException | TimeoutException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 

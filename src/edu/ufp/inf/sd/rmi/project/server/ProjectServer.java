@@ -39,7 +39,12 @@ public class ProjectServer {
             // Get proxy to rmiregistry
             Registry registry = contextRMI.getRegistry();
             // Create Servant
-            this.gameFactoryRI = new GameFactoryImpl();
+            if(this.channel != null){
+                this.gameFactoryRI = new GameFactoryImpl(this.channel);
+            }
+            else{
+                this.gameFactoryRI = new GameFactoryImpl();
+            }
             // Register remote object
             if (registry != null) {
                 // Get service url
@@ -73,7 +78,7 @@ public class ProjectServer {
                  // 2. ============ Rebind service ============
                  hws.setConnection();
                  hws.rebindService();
-
+                 System.out.println(hws.channel == null);
              }
          }
 }

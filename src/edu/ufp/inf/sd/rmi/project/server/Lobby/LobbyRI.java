@@ -7,6 +7,10 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface LobbyRI extends Remote {
+    String getFAN_OUT() throws RemoteException;
+
+    String getW_QUEUE() throws RemoteException;
+
     String getState() throws RemoteException;
 
     void setState(String state,ObserverRI o) throws RemoteException;

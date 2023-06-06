@@ -154,11 +154,20 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
 
     @Override
     public GameSessionRI getSession() throws RemoteException {
-        return new GameSessionImpl(hash,array);
+        if(this.channel != null){
+            return new GameSessionImpl(hash,array,this.channel);
+        }else{
+            return new GameSessionImpl(hash,array);
+        }
     }
 
     @Override
     public void logout(String u) throws RemoteException{
         this.loggedUsers.remove(u);
+    }
+
+    @Override
+    public boolean hasChannel() throws RemoteException{
+        return this.channel != null;
     }
 }

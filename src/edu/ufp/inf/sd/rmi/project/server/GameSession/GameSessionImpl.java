@@ -1,5 +1,6 @@
 package edu.ufp.inf.sd.rmi.project.server.GameSession;
 
+import com.rabbitmq.client.Channel;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
@@ -12,11 +13,19 @@ import java.util.HashMap;
 public class GameSessionImpl extends UnicastRemoteObject implements GameSessionRI {
     private HashMap<String, LobbyImpl> lobbies;
     private ArrayList<LobbyImpl> arrayLobbies;
+    private Channel channel;
 
     public GameSessionImpl(HashMap<String,LobbyImpl> h, ArrayList<LobbyImpl> l)throws RemoteException {
         super();
         lobbies = h;
         arrayLobbies = l;
+    }
+
+    public GameSessionImpl(HashMap<String,LobbyImpl> h, ArrayList<LobbyImpl> l, Channel c)throws RemoteException {
+        super();
+        lobbies = h;
+        arrayLobbies = l;
+        this.channel = c;
     }
 
     @Override
@@ -26,12 +35,19 @@ public class GameSessionImpl extends UnicastRemoteObject implements GameSessionR
 
     @Override
     public String createLobby(String mapName, ObserverRI o) throws RemoteException{
-           LobbyImpl lobby = new LobbyImpl(mapName);
-           String lobbyName = mapName + "#" + lobby.getId();
-           lobbies.put(lobbyName, lobby);
-           arrayLobbies.add(lobby);
-           lobby.registerObserver(o);
-           return lobbyName;
+        LobbyImpl lobby = null;
+        if(this.channel != null){
+            lobby = new LobbyImpl(mapName,this.channel);
+        }
+        else{
+            lobby = new LobbyImpl(mapName);
+        }
+        String lobbyName = mapName + "#" + lobby.getId();
+        lobbies.put(lobbyName, lobby);
+        arrayLobbies.add(lobby);
+        lobby.registerObserver(o);
+        o.setLobby(lobbyName);
+        return lobbyName;
     }
 
     @Override

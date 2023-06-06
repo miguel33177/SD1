@@ -62,9 +62,15 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 
 	int DevPathing = 1;
 	public void keyPressed(KeyEvent e) {
+		boolean rabbitOn = false;
+		try {
+			rabbitOn = Game.gameFactory.hasChannel();
+		} catch (RemoteException ex) {
+			throw new RuntimeException(ex);
+		}
 		int i=e.getKeyCode();
 		if (i==exit) {System.exit(0);}
-		if (Game.GameState==Game.State.PLAYING && !Game.isRabbitmq) {
+		if (Game.GameState==Game.State.PLAYING && !rabbitOn) {
 			Base ply = Game.player.get(Game.btl.currentplayer);
 			try {
 				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
@@ -91,27 +97,36 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 				x.printStackTrace();
 			}
 		}
-		else if(Game.GameState == Game.State.PLAYING == Game.isRabbitmq){
+		else if(Game.GameState == Game.State.PLAYING == rabbitOn){
 			Base ply = Game.player.get(Game.btl.currentplayer);
 			try {
 				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
+				String queue = lobby.getW_QUEUE();
 				if (i == up) {
-					Game.channel.basicPublish("Exchanger","server",null,"up".getBytes(StandardCharsets.UTF_8));
+					String action = "up," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == down) {
-					Game.channel.basicPublish("Exchanger","server",null,"down".getBytes(StandardCharsets.UTF_8));
+					String action = "down," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == left) {
-					Game.channel.basicPublish("Exchanger","server",null,"left".getBytes(StandardCharsets.UTF_8));
+					String action = "left," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == right) {
-					Game.channel.basicPublish("Exchanger","server",null,"right".getBytes(StandardCharsets.UTF_8));
+					String action = "right," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == select) {
-					Game.channel.basicPublish("Exchanger","server",null,"select".getBytes(StandardCharsets.UTF_8));
+					String action = "select," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == cancel) {
-					Game.channel.basicPublish("Exchanger","server",null,"cancel".getBytes(StandardCharsets.UTF_8));
+					String action = "cancel," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				} else if (i == start) {
-					Game.channel.basicPublish("Exchanger","server",null,"start".getBytes(StandardCharsets.UTF_8));
+					String action = "start," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 					new Pause();
 				} else if(i == passTurn){
-					Game.channel.basicPublish("Exchanger","server",null,"passTurn".getBytes(StandardCharsets.UTF_8));
+					String action = "passTurn," + Game.o.getId();
+					Game.channel.basicPublish("",queue,null,action.getBytes(StandardCharsets.UTF_8));
 				}
 			}
 			catch (RemoteException x){

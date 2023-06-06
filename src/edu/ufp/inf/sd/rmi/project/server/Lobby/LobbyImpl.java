@@ -1,5 +1,7 @@
 package edu.ufp.inf.sd.rmi.project.server.Lobby;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.DeliverCallback;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.server.TokenRing;
 
@@ -25,6 +27,11 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
 
     private String state;
 
+    private Channel channel;
+
+    private String FAN_OUT;
+
+    private String W_QUEUE;
 
     public LobbyImpl(String map) throws RemoteException{
         idCounter++;
@@ -40,6 +47,65 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
         this.map=map;
 
     }
+
+    public LobbyImpl(String map, Channel c) throws RemoteException{
+        idCounter++;
+        this.id = idCounter;
+        this.observers = Collections.synchronizedList(new ArrayList<>());
+        if(Objects.equals(map, "FourCorners")){
+            this.maxPlayers = 4;
+        }
+        if(Objects.equals(map,"SmallVs")){
+            this.maxPlayers = 2;
+        }
+        this.lobbyName = map + "#" + this.id;
+        this.map=map;
+        this.channel = c;
+        this.FAN_OUT = "FANOUT_LOBBY#" + this.getId();
+        this.W_QUEUE = "W_LOBBY#" + this.getId();
+    }
+
+    @Override
+    public String getFAN_OUT() throws RemoteException{
+        return this.FAN_OUT;
+    }
+
+    @Override
+    public String getW_QUEUE() throws RemoteException{
+        return this.W_QUEUE;
+    }
+
+    public void createQueues() {
+        try {
+            channel.exchangeDeclare(this.FAN_OUT, "fanout");
+            channel.queueDeclare(this.W_QUEUE + this.getId(),false,false,false,null);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void listenQueues() {
+        DeliverCallback deliver = (consumerTag, delivery) ->{
+            String[] msg = new String(delivery.getBody(),"UTF-8").split(",");
+
+            String action = msg[0];
+            int obs = Integer.parseInt(msg[1]);
+
+            if(this.tokenRing.getHolder() == obs){
+                this.channel.basicPublish(this.FAN_OUT,"",null,action.getBytes("UTF-8"));
+                if (action.equals("passTurn")){
+                    this.tokenRing.passToken();
+                }
+            }
+        };
+        try {
+            this.channel.basicConsume(this.W_QUEUE,true,deliver, consumerTag ->{});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public int getId(){
         return this.id;
@@ -88,6 +154,7 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
     public void registerObserver(ObserverRI o) throws RemoteException {
         if(this.getObservers().size() < maxPlayers){
             this.getObservers().add(o);
+            o.setId(this.getObservers().indexOf(o));
         }
         if(this.getObservers().size() == maxPlayers){
             notifyGameStarting();
@@ -105,6 +172,10 @@ public class LobbyImpl extends UnicastRemoteObject implements LobbyRI{
             catch (RemoteException e){
                 e.printStackTrace();
             }
+        }
+        if(this.channel != null) {
+            this.createQueues();
+            this.listenQueues();
         }
     }
 
