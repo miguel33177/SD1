@@ -3,6 +3,7 @@ package edu.ufp.inf.sd.rmi.project.client.awgame.menus;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 
@@ -142,15 +143,19 @@ public class PlayerSelectionModeOnline implements ActionListener {
             Game.o.setLobby(this.lobbyName);
             System.out.println(Game.character);
 
-        } catch (RemoteException ex) {
-            throw new RuntimeException(ex);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         System.out.println("LOBBY CREATED!");
     }
 
     private void handleJoinLobby() {
         try {
-            Game.o = new ObserverImpl(Game.username, Game.character, Game.pointer);
+            try {
+                Game.o = new ObserverImpl(Game.username, Game.character, Game.pointer);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             this.lobbyName = Game.gameSession.joinLobby(mapname, Game.o);
             //Game.o.setLobby(this.lobbyName);
         } catch (RemoteException ex) {

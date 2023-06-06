@@ -3,6 +3,7 @@ package edu.ufp.inf.sd.rmi.project.server.Lobby;
 import edu.ufp.inf.sd.rmi.project.client.ObserverRI;
 import edu.ufp.inf.sd.rmi.project.server.TokenRing;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;

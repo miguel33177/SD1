@@ -70,22 +70,16 @@ public class InputHandler implements KeyListener,MouseListener,ActionListener {
 				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
 				if (i == up) {
 					lobby.setState("up", Game.o);
-					//ply.selecty--;if (ply.selecty<0) {ply.selecty++;}
 				} else if (i == down) {
 					lobby.setState("down", Game.o);
-					//ply.selecty++;if (ply.selecty>=Game.map.height) {ply.selecty--;}
 				} else if (i == left) {
 					lobby.setState("left", Game.o);
-					//ply.selectx--;if (ply.selectx<0) {ply.selectx++;}
 				} else if (i == right) {
 					lobby.setState("right", Game.o);
-					//ply.selectx++;if (ply.selectx>=Game.map.width) {ply.selectx--;}
 				} else if (i == select) {
 					lobby.setState("select", Game.o);
-					//Game.btl.Action();
 				} else if (i == cancel) {
 					lobby.setState("cancel", Game.o);
-					//Game.player.get(Game.btl.currentplayer).Cancle();
 				} else if (i == start) {
 					lobby.setState("start", Game.o);
 					new Pause();

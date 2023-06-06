@@ -21,4 +21,6 @@ public interface GameFactoryRI extends Remote {
     GameSessionRI getSession() throws RemoteException;
 
     void logout(String u) throws RemoteException;
+
+    boolean hasChannel() throws RemoteException;
 }

@@ -2,16 +2,22 @@ package edu.ufp.inf.sd.rmi.project.client;
 
 import edu.ufp.inf.sd.rmi.project.client.awgame.engine.Game;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.MenuHandler;
-import edu.ufp.inf.sd.rmi.project.client.awgame.menus.ModeOnline;
 import edu.ufp.inf.sd.rmi.project.client.awgame.menus.Pause;
 import edu.ufp.inf.sd.rmi.project.client.awgame.players.Base;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
-import java.awt.*;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.*;
 
 public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
+    //private Connection con;
+    //private Channel channel;
+
+    private int id;
     private final String username;
 
     private String lobby;
@@ -24,6 +30,25 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
         this.username = u;
         this.character = character;
         this.game = g;
+    }
+
+    public void bind(){
+
+    }
+
+    public int getId(){
+        return id;
+    }
+    /*
+    @Override
+    public Channel getChannel() throws RemoteException{
+        return channel;
+    }
+    */
+
+    @Override
+    public void setId(int id) throws RemoteException{
+        this.id = id;
     }
 
     @Override

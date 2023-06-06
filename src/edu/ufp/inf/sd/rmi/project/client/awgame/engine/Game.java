@@ -11,6 +11,7 @@ import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyRI;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;

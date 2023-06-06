@@ -59,7 +59,8 @@ public class ProjectServer {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         this.connection = factory.newConnection();
-        this.channel = this.connection.createChannel();
+        //this.channel = this.connection.createChannel();       //RABBIT IMPL
+        this.channel = null;                                //RMI IMPL
     }
 
     public static void main(String[] args) throws IOException, TimeoutException {
