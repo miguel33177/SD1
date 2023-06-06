@@ -12,7 +12,7 @@ import javax.swing.DefaultListModel;
  */
 public class FileFinder {
 	//final String mappath = "../../../src/edu/ufp/inf/sd/rmi/project/client/awgame/maps";
-final String mappath = "C:\\Users\\Miguel\\Downloads\\SD1\\src\\edu\\ufp\\inf\\sd\\rmi\\project\\client\\awgame\\maps";
+final String mappath = "/Users/brunomiguel/IdeaProjects/SD1/src/edu/ufp/inf/sd/rmi/project/client/awgame/maps";
 	final String packpath = "mods";
 	final String modpath = "mods";
 
