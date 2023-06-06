@@ -60,15 +60,6 @@ public class ProjectServer {
         factory.setHost("localhost");
         this.connection = factory.newConnection();
         this.channel = this.connection.createChannel();
-        channel.queueDeclare("serverQueues", false, false, false, null);
-
-        DeliverCallback deliverCallbackTopic = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), "UTF-8");
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "MESSAGE RECEIVED:" + message);
-            //this.gameHandler(message);
-        };
-        this.channel.basicConsume("serverQueues", true, deliverCallbackTopic, consumerTag -> {
-        });
     }
 
     public static void main(String[] args) throws IOException, TimeoutException {
@@ -79,8 +70,9 @@ public class ProjectServer {
                  // 1. ============ Setup server RMI context ============
                  ProjectServer hws = new ProjectServer(args);
                  // 2. ============ Rebind service ============
-                 hws.rebindService();
                  hws.setConnection();
+                 hws.rebindService();
+
              }
          }
 }

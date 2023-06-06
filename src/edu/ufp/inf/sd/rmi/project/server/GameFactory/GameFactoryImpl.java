@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.rabbitmq.client.Channel;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionImpl;
 import edu.ufp.inf.sd.rmi.project.server.GameSession.GameSessionRI;
 import edu.ufp.inf.sd.rmi.project.server.Lobby.LobbyImpl;
@@ -20,6 +21,7 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
     private final ArrayList<String> loggedUsers;
     private HashMap<String, LobbyImpl> hash;
     private ArrayList<LobbyImpl> array;
+    private Channel channel;
 
     public GameFactoryImpl() throws RemoteException{
         super();
@@ -29,6 +31,11 @@ public class GameFactoryImpl extends UnicastRemoteObject implements GameFactoryR
         this.loggedUsers = new ArrayList<>();
         loadHashMap();
         addShutdownHook();
+    }
+
+    public GameFactoryImpl(Channel c) throws RemoteException{
+        this();
+        this.channel = c;
     }
 
     private void addShutdownHook() {

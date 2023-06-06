@@ -29,12 +29,13 @@ public class ProjectClient {
             System.exit(-1);
         } else {
             ProjectClient client = new ProjectClient(args);
-            client.initContext();
+            //client.initContext();
             client.lookupService();
             client.playService();
         }
     }
 
+    /*
     private void initContext() {
 
         ConnectionFactory factory = new ConnectionFactory();
@@ -48,6 +49,7 @@ public class ProjectClient {
             throw new RuntimeException(e);
         }
     }
+    */
 
     public ProjectClient(String args[]) {
         try {
@@ -77,8 +79,7 @@ public class ProjectClient {
     }
 
     private void playService() {
-        new Game(this.gameFactoryRI); //RMI IMPL
-        //new Game(this.gameFactoryRI, this.channel);  //RABBIT IMPL
+        new Game(this.gameFactoryRI);
     }
 
 }
