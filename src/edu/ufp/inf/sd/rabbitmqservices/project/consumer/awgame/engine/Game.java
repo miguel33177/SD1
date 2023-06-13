@@ -69,7 +69,7 @@ public class Game extends JFrame {
     public static Image img_city;
     public static Image img_exts;
     public static Boolean readytopaint;
-
+    public static int id;
 
     //This handles the different players and also is used to speed logic arrays (contains a list of all characters they own)
     public static List<edu.ufp.inf.sd.rabbitmqservices.project.consumer.awgame.players.Base> player = new ArrayList<edu.ufp.inf.sd.rabbitmqservices.project.consumer.awgame.players.Base>();
@@ -106,8 +106,20 @@ public class Game extends JFrame {
         list = new ListData();
 
         setVisible(true);//This has been moved down here so that when everything is done, it is shown.
-        gui.LoginScreen();
+        //gui.LoginScreen();
+        boolean[] bots = {false, false, false, false};
+        int[] characters = {0,1,2,3};
+
+
+        //MenuHandler.CloseMenu();
+        //Game.GameState = State.PLAYING;
+        Game.btl.NewGame("SmallVs");
+       //Game.btl.NewGame("FourCorners");
+        Game.btl.AddCommanders(characters,bots,100,50);
+        Game.gui.InGameScreen();
         save.LoadSettings();
+
+
         GameLoop();
     }
 
@@ -188,6 +200,7 @@ public class Game extends JFrame {
         Game.gui.InGameScreen();
 
     }
+
 
     /**
      * Starts a new game when launched.

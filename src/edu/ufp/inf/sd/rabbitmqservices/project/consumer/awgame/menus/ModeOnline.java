@@ -43,10 +43,10 @@ public class ModeOnline implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
-        if (s==New) {new MapsSelectionModeOnline();}
-        else if (s==Join) {new JoinLobbyModeOnline();}
-        else if (s==Return) {
+        //if (s==New) {new MapsSelectionModeOnline();}
+        //else if (s==Join) {new JoinLobbyModeOnline();}
+        //else if (s==Return) {
             MenuHandler.CloseMenu();
             Game.gui.LoginScreen();}
-    }
+    //}
 }

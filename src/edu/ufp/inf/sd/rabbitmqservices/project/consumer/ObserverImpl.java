@@ -24,13 +24,17 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
 
     private Game game;
 
-    public ObserverImpl(String u, int character, Game g) throws RemoteException {
+    public ObserverImpl(String u, int character, Game g) throws RemoteException, Exception {
         this.username = u;
         this.character = character;
         this.game = g;
         //bind();
-
-
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        this.con = factory.newConnection();
+        this.channel = con.createChannel();
+        this.channel.queueDeclare("queue_w",false,false,false,null);
+        listenQueue();
     }
 
     public void bind(){
@@ -208,9 +212,9 @@ public class ObserverImpl extends UnicastRemoteObject implements ObserverRI{
             }
             else{
                 String[] arr = move.split(":");
-                int item = Integer.parseInt(arr[0]);
-                int x = Integer.parseInt(arr[1]);
-                int y = Integer.parseInt(arr[2]);
+                int item = Integer.parseInt(arr[1]);
+                int x = Integer.parseInt(arr[2]);
+                int y = Integer.parseInt(arr[3]);
                 Game.btl.Buyunit(item, x, y);
 
             }

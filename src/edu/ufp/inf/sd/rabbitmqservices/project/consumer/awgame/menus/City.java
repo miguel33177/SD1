@@ -100,9 +100,10 @@ public class City implements ActionListener,ListSelectionListener {
 		else if (s==Buy) {
 			System.out.println("HELLO");
 			try{
-				LobbyRI lobby = Game.gameSession.getLobby(Game.o.getLobby());
 				if (!Units.isSelectionEmpty()){
-					lobby.setState("" + ids[Units.getSelectedIndex()] + ":" + x +":" + y, Game.o);
+					String action = "select," + Game.id;
+					String z = "buy," + Game.id + ","+ ids[Units.getSelectedIndex()] + ":" + x +":" + y;
+					Game.o.channel.basicPublish("","queue_w",null,z.getBytes(StandardCharsets.UTF_8));
 					//Game.btl.Buyunit(ids[Units.getSelectedIndex()], x, y);
 				}
 			}
